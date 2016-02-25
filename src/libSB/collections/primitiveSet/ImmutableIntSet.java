@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,88 +30,90 @@ import java.util.stream.IntStream;
  *
  * @author Simon Berndt
  */
-final public class ImmutableIntSet<TypeHint> {
+final public class ImmutableIntSet {
 
+    private static final ImmutableIntSet EMPTY = new ImmutableIntSet();
+    
     // Sorted Array of elements contained by this set - Immutable
     private final int[] elements;
 
     public ImmutableIntSet(IntStream elements) {
-	this.elements = elements.distinct().sorted().toArray();
+        this.elements = elements.distinct().sorted().toArray();
     }
 
     private ImmutableIntSet() {
-	this.elements = new int[0];
+        this.elements = new int[0];
     }
 
     private ImmutableIntSet(int i) {
-	this.elements = new int[] {i};
+        this.elements = new int[]{i};
     }
 
-    public static <T> ImmutableIntSet<T> empty() {
-	return new ImmutableIntSet<>();
+    public static ImmutableIntSet empty() {
+        return EMPTY;
     }
 
-    public static <TypeHint> Builder<TypeHint> builder() {
-	return new Builder<>();
+    public static Builder builder() {
+        return new Builder();
     }
 
     public boolean isEmpty() {
-	return this.elements.length == 0;
+        return this.elements.length == 0;
     }
 
     public int size() {
-	return this.elements.length;
+        return this.elements.length;
     }
 
     public boolean contains(int i) {
-	return Arrays.binarySearch(this.elements, i) >= 0;
+        return Arrays.binarySearch(this.elements, i) >= 0;
     }
 
     public boolean notContains(int i) {
-	return Arrays.binarySearch(this.elements, i) < 0;
+        return Arrays.binarySearch(this.elements, i) < 0;
     }
 
-    public ImmutableIntSet<TypeHint> union(ImmutableIntSet<? super TypeHint> set) {
-	return new ImmutableIntSet<>(IntStream.concat(this.stream(), set.stream()));
+    public ImmutableIntSet union(ImmutableIntSet set) {
+        return new ImmutableIntSet(IntStream.concat(this.stream(), set.stream()));
     }
 
-    public ImmutableIntSet<TypeHint> intersection(ImmutableIntSet<? super TypeHint> set) {
-	return new ImmutableIntSet<>(this.stream().filter(set::contains));
+    public ImmutableIntSet intersection(ImmutableIntSet set) {
+        return new ImmutableIntSet(this.stream().filter(set::contains));
     }
 
-    public ImmutableIntSet<TypeHint> complement(ImmutableIntSet<? super TypeHint> domain) {
-	return new ImmutableIntSet<>(domain.stream().filter(this::notContains));
+    public ImmutableIntSet complement(ImmutableIntSet domain) {
+        return new ImmutableIntSet(domain.stream().filter(this::notContains));
     }
 
     public IntStream stream() {
-	return Arrays.stream(this.elements);
+        return Arrays.stream(this.elements);
     }
 
-    public static class Builder<TypeHint> {
+    public static class Builder {
 
-	private final IntStream.Builder internalBuilder;
+        private final IntStream.Builder internalBuilder;
 
-	public Builder() {
-	    this.internalBuilder = IntStream.builder();
-	}
+        public Builder() {
+            this.internalBuilder = IntStream.builder();
+        }
 
-	public void add(IntStream streamOfElements) {
-	    streamOfElements.forEach(this.internalBuilder);
-	}
+        public void add(IntStream streamOfElements) {
+            streamOfElements.forEach(this.internalBuilder);
+        }
 
-	public void add(int element) {
-		this.internalBuilder.accept(element);
-	}
+        public void add(int element) {
+            this.internalBuilder.accept(element);
+        }
 
-	public void add(int... elements) {
-	    for (final int element : elements) {
-		    this.internalBuilder.accept(element);
-	    }
-	}
+        public void add(int... elements) {
+            for (final int element : elements) {
+                this.internalBuilder.accept(element);
+            }
+        }
 
-	public ImmutableIntSet<TypeHint> build() {
-	    return new ImmutableIntSet<>(this.internalBuilder.build());
-	}
+        public ImmutableIntSet build() {
+            return new ImmutableIntSet(this.internalBuilder.build());
+        }
 
     }
 

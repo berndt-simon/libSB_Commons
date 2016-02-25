@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import java.net.URLClassLoader;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,17 +57,18 @@ public final class JarPluginLoadingUtil {
     }
 
     
-    public static <T> void loadFromJarFile(Path jarFile, Class<T> pluginMasterClass, Collection<Class<? extends T>> target) {
+    public static <T> Iterable<Class<? extends T>> loadFromJarFile(Path jarFile, Class<T> pluginMasterClass) {
 	LOG.log(Level.FINE, "Look into potential Plugin-Jar: \'{0}\'", jarFile.toString());
 	try (URLClassLoader urlClassLoader = new URLClassLoader(asArray(jarFile.toUri().toURL()), SYSTEM_CLASSLOADER)) {
 	    try (FileSystem jarFileSystem = FileSystems.newFileSystem(jarFile, null)) {
-		PluginLoadingUtil.loadFromFileSystem(jarFileSystem, urlClassLoader, pluginMasterClass, target);
+		return PluginLoadingUtil.loadFromFileSystem(jarFileSystem, urlClassLoader, pluginMasterClass);
 	    } catch (IOException e) {
                 LOG.log(Level.SEVERE, null, e);
             }
 	} catch (IOException ex) {
 	    LOG.log(Level.SEVERE, null, ex);
 	}
+        return Collections.emptyList();
     }
 
     private static URL[] asArray(URL... urls) {

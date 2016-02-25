@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ public final class MutableVec4 extends AbstractReadOnlyVec4<MutableVec4> impleme
     public MutableVec4() {
         this(0.0, 0.0, 0.0, 0.0);
     }
-    
+
     public MutableVec4(Vec4 vec) {
         this(vec.getX(), vec.getY(), vec.getZ(), vec.getW());
     }
@@ -129,12 +129,31 @@ public final class MutableVec4 extends AbstractReadOnlyVec4<MutableVec4> impleme
     protected MutableVec4 createVec4(double x, double y, double z, double w) {
         return new MutableVec4(x, y, z, w);
     }
-    
+
     public static Builder builder() {
         return new Builder();
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
+    @Override
+    public void setAxis(int axis, double value) {
+        switch (axis) {
+            case 0:
+                this.x = value;
+                break;
+            case 1:
+                this.y = value;
+                break;
+            case 2:
+                this.z = value;
+                break;
+            case 3:
+                this.w = value;
+                break;
+        }
+        throw new IllegalArgumentException("Invalid Axis-Index");
+    }
+
     @Override
     public void set(double x, double y, double z, double w) {
         this.x = x;
@@ -187,11 +206,9 @@ public final class MutableVec4 extends AbstractReadOnlyVec4<MutableVec4> impleme
     public void setW(double w) {
         this.w = w;
     }
-    
-//</editor-fold>
 
+//</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Object-Stuff">
-    
     @Override
     public int hashCode() {
         long bits = 3;

@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ public final class MutableVec3 extends AbstractReadOnlyVec3<MutableVec3> impleme
     public MutableVec3() {
         this(0.0, 0.0, 0.0);
     }
-    
+
     public MutableVec3(Vec3 vec) {
         this(vec.getX(), vec.getY(), vec.getZ());
     }
@@ -120,12 +120,28 @@ public final class MutableVec3 extends AbstractReadOnlyVec3<MutableVec3> impleme
     protected MutableVec3 createVec3(double x, double y, double z) {
         return new MutableVec3(x, y, z);
     }
-    
+
     public static Builder builder() {
         return new Builder();
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
+    @Override
+    public void setAxis(int axis, double value) {
+        switch (axis) {
+            case 0:
+                this.x = value;
+                break;
+            case 1:
+                this.y = value;
+                break;
+            case 2:
+                this.z = value;
+                break;
+        }
+        throw new IllegalArgumentException("Invalid Axis-Index");
+    }
+
     @Override
     public void set(double x, double y, double z) {
         this.x = x;
@@ -177,7 +193,6 @@ public final class MutableVec3 extends AbstractReadOnlyVec3<MutableVec3> impleme
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Object-Stuff">
-    
     @Override
     public int hashCode() {
         long bits = 7L;

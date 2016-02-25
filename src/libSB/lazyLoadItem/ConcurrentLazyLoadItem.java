@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,28 +31,29 @@ import java.util.function.Supplier;
  * @author Simon Berndt
  */
 public class ConcurrentLazyLoadItem<T> implements Supplier<T>, Serializable {
+
     private static final long serialVersionUID = -1891497054998473825L;
-        
+
     private final Supplier<T> itemBuilder;
-    private transient volatile boolean loaded;
-    
-    private transient T value;
+
+    private volatile transient T value;
 
     ConcurrentLazyLoadItem(Supplier<T> itemBuilder) {
-      this.itemBuilder = itemBuilder;
+        this.itemBuilder = itemBuilder;
     }
 
     @Override
     public T get() {
-      if (!loaded) {
-        synchronized (this) {
-          if (!loaded) {
-            value = itemBuilder.get();
-            loaded = true;
-            return value;
-          }
+        T result = value;
+        if (result == null) {
+            synchronized (this) {
+                result = value;
+                if (result == null) {
+                    value = result = itemBuilder.get();
+                }
+            }
         }
-      }
-      return value;
-    }    
+        return result;
+    }
+
 }

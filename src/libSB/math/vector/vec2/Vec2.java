@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +23,16 @@
  */
 package libSB.math.vector.vec2;
 
-import libSB.math.vector.Vector;
 import libSB.math.vector.swizzling.accessor.AccessorBuilder_Level1;
 import libSB.math.vector.swizzling.accessor.SwizzlingAccessor;
+import libSB.math.vector.vec.Vec;
 import libSB.math.vector.vec3.Vec3;
 
 /**
  *
  * @author Simon Berndt
  */
-public interface Vec2 extends Vector.V2 {
+public interface Vec2 extends Vec.V2 {
 
     Vec2 add(double x, double y);
 
@@ -65,12 +65,12 @@ public interface Vec2 extends Vector.V2 {
     double phi();
 
     Vec2 normalize();
-    
+
     default AccessorBuilder_Level1.V2 swizzle() {
         return SwizzlingAccessor.of(this);
     }
 
-    interface Mutable extends Vec2 {
+    interface Mutable extends Vec2, Vec.Mutable {
 
         @Override
         Vec2.Mutable add(double x, double y);
@@ -115,7 +115,7 @@ public interface Vec2 extends Vector.V2 {
         Vec2.Mutable inplaceDivide(double dividend);
 
         Vec2.Mutable inplaceNormalize();
-        
+
         Vec2.Mutable inplaceInverse();
 
         void set(double x, double y);
@@ -128,9 +128,5 @@ public interface Vec2 extends Vector.V2 {
 
         void setY(double y);
     }
-
-    static double distance(Vec2 v1, Vec2 v2) {
-        return Math.hypot(v2.getX() - v1.getX(), v2.getY() - v1.getY());
-    }
-
+    
 }

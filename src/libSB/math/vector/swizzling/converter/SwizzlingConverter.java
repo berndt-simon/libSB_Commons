@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 package libSB.math.vector.swizzling.converter;
 
 import java.util.function.ToDoubleFunction;
-import libSB.math.vector.Vector;
+import libSB.math.vector.vec.Vec;
 import libSB.math.vector.vec2.ImmutableVec2;
 import libSB.math.vector.vec2.Vec2;
 import libSB.math.vector.vec3.ImmutableVec3;
@@ -41,7 +41,7 @@ public final class SwizzlingConverter {
     private SwizzlingConverter() {
     }
 
-    public static <VI extends Vector.V2> Converter<VI, Vec2> converterWith(
+    public static <VI extends Vec.V2> Converter<VI, Vec2> converterWith(
             ToDoubleFunction<VI> xGetter, 
             ToDoubleFunction<VI> yGetter) {
         return (VI vec) -> {
@@ -51,7 +51,7 @@ public final class SwizzlingConverter {
         };
     }
     
-    public static <VI extends Vector.V2> Converter<VI, Vec3> converterWith(
+    public static <VI extends Vec.V2> Converter<VI, Vec3> converterWith(
             ToDoubleFunction<VI> xGetter, 
             ToDoubleFunction<VI> yGetter, 
             ToDoubleFunction<VI> zGetter) {
@@ -63,7 +63,7 @@ public final class SwizzlingConverter {
         };
     }
     
-    public static <VI extends Vector.V2> Converter<VI, Vec4> converterWith(
+    public static <VI extends Vec.V2> Converter<VI, Vec4> converterWith(
             ToDoubleFunction<VI> xGetter, 
             ToDoubleFunction<VI> yGetter, 
             ToDoubleFunction<VI> zGetter, 
@@ -78,19 +78,19 @@ public final class SwizzlingConverter {
     }
 
     public static ConverterBuilder_Level1.V2 x() {
-        return new ConverterBuilder_Level1.V2(Vector.V2::getX);
+        return new ConverterBuilder_Level1.V2(Vec.V2::getX);
     }
 
     public static ConverterBuilder_Level1.V2 y() {
-        return new ConverterBuilder_Level1.V2(Vector.V2::getY);
+        return new ConverterBuilder_Level1.V2(Vec.V2::getY);
     }
 
     public static ConverterBuilder_Level1.V3 z() {
-        return new ConverterBuilder_Level1.V3(Vector.V3::getZ);
+        return new ConverterBuilder_Level1.V3(Vec.V3::getZ);
     }
 
     public static ConverterBuilder_Level1.V4 w() {
-        return new ConverterBuilder_Level1.V4(Vector.V4::getW);
+        return new ConverterBuilder_Level1.V4(Vec.V4::getW);
     }
 
 }

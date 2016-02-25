@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,11 +29,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.tools.JavaFileObject;
@@ -99,8 +99,9 @@ public final class PluginLoadingUtil {
         }
     }
 
-    public static <T> void loadFromFileSystem(FileSystem jarFileSystem, ClassLoader jarClassLoader, Class<T> pluginMasterClass, Collection<Class<? extends T>> target) {
-        StreamSupport.stream(jarFileSystem.getRootDirectories().spliterator(), false).forEach((Path rootDirectory) -> {
+    public static <T> Iterable<Class<? extends T>> loadFromFileSystem(FileSystem jarFileSystem, ClassLoader jarClassLoader, Class<T> pluginMasterClass) {
+        return StreamSupport.stream(jarFileSystem.getRootDirectories().spliterator(), false).flatMap((Path rootDirectory) -> {
+            final Stream.Builder<Class<? extends T>> pluginClasses = Stream.builder();
             try (Stream<Path> fileTreeStream = Files.walk(rootDirectory)) {
                 fileTreeStream
                         .filter(Files::isReadable)
@@ -113,7 +114,7 @@ public final class PluginLoadingUtil {
                             LOG.log(Level.FINER, "Loaded Class: {0}", loadedClass.getName());
                             if (pluginMasterClass.isAssignableFrom(loadedClass)) {
                                 LOG.log(Level.FINE, "{0} is a Plugin-Class", loadedClass.getName());
-                                target.add(loadedClass.asSubclass(pluginMasterClass));
+                                pluginClasses.add(loadedClass.asSubclass(pluginMasterClass));
                             } else {
                                 LOG.log(Level.FINER, "{0} is not a Plugin-Class", loadedClass.getName());
                             }
@@ -121,7 +122,8 @@ public final class PluginLoadingUtil {
             } catch (IOException ex) {
                 LOG.log(Level.SEVERE, null, ex);
             }
-        });
+            return pluginClasses.build();
+        }).collect(Collectors.toList());
     }
 
 }

@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import java.util.Locale;
  * @author Simon Berndt
  */
 abstract class AbstractReadOnlyVec4<V4 extends Vec4> implements Vec4 {
-    
+
     @Override
     public final double distance(double x, double y, double z, double w) {
         double a = this.getX() - x;
@@ -106,6 +106,21 @@ abstract class AbstractReadOnlyVec4<V4 extends Vec4> implements Vec4 {
         return createVec4(-getX(), -getY(), -getZ(), -getW());
     }
 
+    @Override
+    public double get(int axisIndex) {
+        switch (axisIndex) {
+            case 0:
+                return getX();
+            case 1:
+                return getY();
+            case 2:
+                return getZ();
+            case 3:
+                return getW();
+        }
+        throw new IllegalArgumentException("Invalid Axis-Index");
+    }
+
     protected abstract V4 createVec4(double x, double y, double z, double w);
 
     //<editor-fold defaultstate="collapsed" desc="Object-Stuff">
@@ -121,15 +136,14 @@ abstract class AbstractReadOnlyVec4<V4 extends Vec4> implements Vec4 {
             return false;
         }
     }
-    
+
     @Override
     public abstract int hashCode();
-    
+
     @Override
     public String toString() {
         return String.format(Locale.ROOT, "[%f; %f; %f; %f]", getX(), getY(), getZ(), getW());
     }
 //</editor-fold>
-    
-   
+
 }

@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,6 +69,10 @@ public final class StreamUtils {
      */
     public static <T> Consumer<T> applyFalse(BiConsumer<T, Boolean> booleanConsumer) {
         return (T t) -> booleanConsumer.accept(t, Boolean.FALSE);
+    }
+    
+    public static <T> Predicate<T> not(Predicate<T> predicate) {
+        return predicate.negate();
     }
 
     /**

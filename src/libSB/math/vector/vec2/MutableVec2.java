@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -124,6 +124,20 @@ public final class MutableVec2 extends AbstractReadOnlyVec2<MutableVec2, Mutable
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
+
+    @Override
+    public void setAxis(int axis, double value) {
+        switch (axis) {
+            case 0:
+                this.x = value;
+                break;
+            case 1:
+                this.y = value;
+                break;
+        }
+        throw new IllegalArgumentException("Invalid Axis-Index");
+    }
+    
     @Override
     public void set(double x, double y) {
         this.x = x;

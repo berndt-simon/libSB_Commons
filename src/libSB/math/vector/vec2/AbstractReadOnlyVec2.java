@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -114,6 +114,17 @@ abstract class AbstractReadOnlyVec2<V2 extends Vec2, V3 extends Vec3> implements
             return createVec2(0.0, 0.0);
         }
         return createVec2(getX() / mag, getY() / mag);
+    }
+
+    @Override
+    public double get(int axisIndex) {
+        switch (axisIndex) {
+            case 0:
+                return getX();
+            case 1:
+                return getY();
+        }
+        throw new IllegalArgumentException("Invalid Axis-Index");
     }
 
     protected abstract V2 createVec2(double x, double y);

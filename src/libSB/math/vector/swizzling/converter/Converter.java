@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,13 @@
  */
 package libSB.math.vector.swizzling.converter;
 
-import libSB.math.vector.Vector;
+import libSB.math.vector.vec.Vec;
 
 /**
  *
  * @author Simon Berndt
  */
-public interface Converter<VI extends Vector.V2, VO extends Vector.V2> {
+public interface Converter<VI extends Vec, VO extends Vec> {
     
     VO convert(VI vec);
     

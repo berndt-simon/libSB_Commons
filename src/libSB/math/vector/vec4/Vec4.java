@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,15 @@
  */
 package libSB.math.vector.vec4;
 
-import libSB.math.vector.Vector;
 import libSB.math.vector.swizzling.accessor.AccessorBuilder_Level1;
 import libSB.math.vector.swizzling.accessor.SwizzlingAccessor;
+import libSB.math.vector.vec.Vec;
 
 /**
  *
  * @author Simon Berndt
  */
-public interface Vec4 extends Vector.V4 {
+public interface Vec4 extends Vec.V4 {
 
     Vec4 add(double x, double y, double z, double w);
 
@@ -58,12 +58,12 @@ public interface Vec4 extends Vector.V4 {
     Vec4 normalize();
 
     double magnitude();
-    
+
     default AccessorBuilder_Level1.V4 swizzle() {
         return SwizzlingAccessor.of(this);
     }
 
-    interface Mutable extends Vec4 {
+    interface Mutable extends Vec4, Vec.Mutable {
 
         @Override
         Vec4.Mutable add(double x, double y, double z, double w);
@@ -111,7 +111,7 @@ public interface Vec4 extends Vector.V4 {
         void setY(double y);
 
         void setZ(double z);
-        
+
         void setW(double w);
 
     }

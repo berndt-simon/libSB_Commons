@@ -1,7 +1,7 @@
-/*
+/* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 package libSB.math.vector.swizzling.converter;
 
 import java.util.function.ToDoubleFunction;
-import libSB.math.vector.Vector;
+import libSB.math.vector.vec.Vec;
 
 /**
  *
@@ -38,29 +38,29 @@ public final class ConverterBuilder_Level1 {
 
     public static final class V2 {
 
-        private final ToDoubleFunction<? super Vector.V2> xGetter;
+        private final ToDoubleFunction<? super Vec.V2> xGetter;
 
-        V2(ToDoubleFunction<? super Vector.V2> xGetter) {
+        V2(ToDoubleFunction<? super Vec.V2> xGetter) {
             this.xGetter = xGetter;
         }
         
         public ConverterBuilder_Level2.V2 x() {
-            return new ConverterBuilder_Level2.V2(xGetter, Vector.V2::getX);
+            return new ConverterBuilder_Level2.V2(xGetter, Vec.V2::getX);
         }
         
         public ConverterBuilder_Level2.V2 y() {
-            return new ConverterBuilder_Level2.V2(xGetter, Vector.V2::getY);
+            return new ConverterBuilder_Level2.V2(xGetter, Vec.V2::getY);
         }
         
         public ConverterBuilder_Level2.V3 z() {
-            return new ConverterBuilder_Level2.V3(xGetter, Vector.V3::getZ);
+            return new ConverterBuilder_Level2.V3(xGetter, Vec.V3::getZ);
         }
         
         public ConverterBuilder_Level2.V4 w() {
-            return new ConverterBuilder_Level2.V4(xGetter, Vector.V4::getW);
+            return new ConverterBuilder_Level2.V4(xGetter, Vec.V4::getW);
         }
 
-        public ToDoubleFunction<? super Vector.V2> build() {
+        public ToDoubleFunction<? super Vec.V2> build() {
             return xGetter;
         }
 
@@ -68,29 +68,29 @@ public final class ConverterBuilder_Level1 {
 
     public static final class V3 {
 
-        private final ToDoubleFunction<? super Vector.V3> xGetter;
+        private final ToDoubleFunction<? super Vec.V3> xGetter;
 
-        V3(ToDoubleFunction<? super Vector.V3> xGetter) {
+        V3(ToDoubleFunction<? super Vec.V3> xGetter) {
             this.xGetter = xGetter;
         }
         
         public ConverterBuilder_Level2.V3 x() {
-            return new ConverterBuilder_Level2.V3(xGetter, Vector.V3::getX);
+            return new ConverterBuilder_Level2.V3(xGetter, Vec.V3::getX);
         }
         
         public ConverterBuilder_Level2.V3 y() {
-            return new ConverterBuilder_Level2.V3(xGetter, Vector.V3::getY);
+            return new ConverterBuilder_Level2.V3(xGetter, Vec.V3::getY);
         }
         
         public ConverterBuilder_Level2.V3 z() {
-            return new ConverterBuilder_Level2.V3(xGetter, Vector.V3::getZ);
+            return new ConverterBuilder_Level2.V3(xGetter, Vec.V3::getZ);
         }
         
         public ConverterBuilder_Level2.V4 w() {
-            return new ConverterBuilder_Level2.V4(xGetter, Vector.V4::getW);
+            return new ConverterBuilder_Level2.V4(xGetter, Vec.V4::getW);
         }
 
-        public ToDoubleFunction<? super Vector.V3> build() {
+        public ToDoubleFunction<? super Vec.V3> build() {
             return xGetter;
         }
 
@@ -98,29 +98,29 @@ public final class ConverterBuilder_Level1 {
 
     public static final class V4 {
 
-        private final ToDoubleFunction<? super Vector.V4> xGetter;
+        private final ToDoubleFunction<? super Vec.V4> xGetter;
 
-        V4(ToDoubleFunction<? super Vector.V4> xGetter) {
+        V4(ToDoubleFunction<? super Vec.V4> xGetter) {
             this.xGetter = xGetter;
         }
         
         public ConverterBuilder_Level2.V4 x() {
-            return new ConverterBuilder_Level2.V4(xGetter, Vector.V4::getX);
+            return new ConverterBuilder_Level2.V4(xGetter, Vec.V4::getX);
         }
         
         public ConverterBuilder_Level2.V4 y() {
-            return new ConverterBuilder_Level2.V4(xGetter, Vector.V4::getY);
+            return new ConverterBuilder_Level2.V4(xGetter, Vec.V4::getY);
         }
         
         public ConverterBuilder_Level2.V4 z() {
-            return new ConverterBuilder_Level2.V4(xGetter, Vector.V4::getZ);
+            return new ConverterBuilder_Level2.V4(xGetter, Vec.V4::getZ);
         }
         
         public ConverterBuilder_Level2.V4 w() {
-            return new ConverterBuilder_Level2.V4(xGetter, Vector.V4::getW);
+            return new ConverterBuilder_Level2.V4(xGetter, Vec.V4::getW);
         }
 
-        public ToDoubleFunction<? super Vector.V4> build() {
+        public ToDoubleFunction<? super Vec.V4> build() {
             return xGetter;
         }
 

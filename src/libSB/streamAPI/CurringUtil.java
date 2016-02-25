@@ -1,7 +1,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2015 Simon Berndt.
+ * Copyright 2016 Simon Berndt.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -39,8 +40,20 @@ public final class CurringUtil {
     private CurringUtil() {
     }
 
+    public static <I, O> Supplier<O> captureArgument(Function<I, O> function, I argument) {
+        return () -> {
+            return function.apply(argument);
+        };
+    }
+
     public static <I1, I2> void run(Stream<I1> items, Stream<I2> arguments, Function<I1, Consumer<I2>> curryFunction) {
         items.map(curryFunction).forEach(arguments::forEach);
+    }
+    
+    public static <T> Consumer<T> justCall(Runnable r) {
+        return (T t) -> {
+            r.run();
+        };
     }
 
     /**
@@ -72,7 +85,6 @@ public final class CurringUtil {
         return (I1 a) -> (I2 b) -> consumer.accept(a, b);
     }
 
-    
     public static <I1, I2, O> BiFunction<I1, I2, O> uncurryBiFunction(Function<I1, Function<I2, O>> curryFunction) {
         return (I1 a, I2 b) -> curryFunction.apply(a).apply(b);
     }
