@@ -23,6 +23,7 @@
  */
 package libSB.streamAPI;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -44,6 +45,28 @@ public final class StreamUtils {
     private static final Logger LOG = Logger.getLogger(StreamUtils.class.getName());
 
     private StreamUtils() {
+    }
+
+    /**
+     * creates a Predidate which returns true if for a given Argument the extracted Value equals the specified Matching-Value. 
+     * Equality is deterimined by Objects.equals()
+     */
+    public static <T, N> Predicate<T> matcher(Function<? super T, ? extends N> extractor, N match) {
+        Objects.requireNonNull(extractor);
+        return (T t) -> {
+            return Objects.equals(match, extractor.apply(t));
+        };
+    }
+
+    /**
+     * creates a Predidate which returns true if for a given Argument the extracted Value equals the specified Matching-Value.
+     * Equality is determined by '=='-Operator
+     */
+    public static <T, N> Predicate<T> identityMatcher(Function<? super T, ? extends N> extractor, N identityMatch) {
+        Objects.requireNonNull(extractor);
+        return (T t) -> {
+            return identityMatch == extractor.apply(t);
+        };
     }
 
     /**
@@ -70,7 +93,7 @@ public final class StreamUtils {
     public static <T> Consumer<T> applyFalse(BiConsumer<T, Boolean> booleanConsumer) {
         return (T t) -> booleanConsumer.accept(t, Boolean.FALSE);
     }
-    
+
     public static <T> Predicate<T> not(Predicate<T> predicate) {
         return predicate.negate();
     }

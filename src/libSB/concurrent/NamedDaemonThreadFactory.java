@@ -23,29 +23,27 @@
  */
 package libSB.concurrent;
 
-import java.util.concurrent.ForkJoinPool;
-import static java.util.concurrent.ForkJoinPool.defaultForkJoinWorkerThreadFactory;
-import java.util.concurrent.ForkJoinWorkerThread;
+import java.util.Objects;
+import java.util.concurrent.ThreadFactory;
 
 /**
  *
  * @author Simon Berndt
  */
-final public class DaemonThreadFactory {
+final public class NamedDaemonThreadFactory implements ThreadFactory {
     
-    private DaemonThreadFactory() {
+    private final String threadName;
+    
+    public NamedDaemonThreadFactory(String threadName) {
+        this.threadName = Objects.requireNonNull(threadName);;
     }
-
-    public static Thread createThread(Runnable r) {
+    
+    @Override
+    public Thread newThread(Runnable r) {
 	final Thread t = new Thread(r);
 	t.setDaemon(true);
+        t.setName(threadName);
 	return t;
-    }
-
-    public static ForkJoinWorkerThread createThread(ForkJoinPool pool) {
-	ForkJoinWorkerThread fjwt = defaultForkJoinWorkerThreadFactory.newThread(pool);
-	fjwt.setDaemon(true);
-	return fjwt;
     }
 
 }
